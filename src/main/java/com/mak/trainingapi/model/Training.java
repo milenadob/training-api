@@ -1,16 +1,16 @@
 package com.mak.trainingapi.model;
 
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
 @Table
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class Training {
@@ -32,7 +32,6 @@ public class Training {
     private Double distance;
 
     private String additionalInfo;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
