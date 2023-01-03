@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 
 @Service
+@Transactional
 public class TrainingService {
     private final TrainingRepository trainingRepository;
     private final UserRepository userRepository;
@@ -35,7 +36,6 @@ public class TrainingService {
         return TrainingViewMapper.INSTANCE.toTrainingViewList(trainingArrayList);
     }
 
-    @Transactional
     public TrainingViewDto createTraining(TrainingCreateDto trainingCreateDto){
         User user = userRepository.getUserByUsername(trainingCreateDto.getUsername());
         Training training = TrainingMapper.INSTANCE.trainingCreateDtoToTraining(trainingCreateDto);
@@ -47,7 +47,6 @@ public class TrainingService {
     }
 
     //TODO custom exception
-    @Transactional
     public TrainingViewDto updateTraining(Integer id, TrainingUpdateDto trainingUpdateDto){
         Training training = trainingRepository.findById(id).orElseThrow();
         TrainingMapper.INSTANCE.trainingUpdateDtoToTraining(trainingUpdateDto, training);
@@ -56,7 +55,7 @@ public class TrainingService {
 
         return TrainingViewMapper.INSTANCE.trainingToTrainingViewDto(training);
     }
-    @Transactional
+
     public void deleteTraining(Integer id){
         Training training = trainingRepository.findById(id).orElseThrow();
         trainingRepository.delete(training);

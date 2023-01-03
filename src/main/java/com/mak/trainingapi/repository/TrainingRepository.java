@@ -12,4 +12,6 @@ public interface TrainingRepository extends CrudRepository<Training, Integer> {
     ArrayList<Training> findAll();
 
     ArrayList<Training> getTrainingByUser(User user);
+
+    void deleteAllByUser(User user);
 }

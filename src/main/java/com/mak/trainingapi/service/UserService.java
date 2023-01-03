@@ -8,6 +8,7 @@ import com.mak.trainingapi.mapper.UserViewMapper;
 import com.mak.trainingapi.model.Role;
 import com.mak.trainingapi.model.User;
 import com.mak.trainingapi.repository.RoleRepository;
+import com.mak.trainingapi.repository.TrainingRepository;
 import com.mak.trainingapi.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,18 +23,22 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
+@Transactional
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+
+    private final TrainingRepository trainingRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository,
+                       TrainingRepository trainingRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.trainingRepository = trainingRepository;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
-    @Transactional
     public UserViewDto createUser(UserRegisterDto userRegisterDto) {
         if (usernameExists(userRegisterDto.username())) {
             throw new ValidationException("User with this login already exists");
@@ -54,7 +59,6 @@ public class UserService implements UserDetailsService {
     }
 
     // TODO update by username or id?
-    @Transactional
     public UserViewDto updateUser(String username, UserUpdateDto userUpdateDto){
         User user  = userRepository.getUserByUsername(username);
         UserMapper.INSTANCE.userUpdateDtoToUser(userUpdateDto, user);
@@ -76,6 +80,7 @@ public class UserService implements UserDetailsService {
 
     public void deleteUser(String username){
         User user  = userRepository.getUserByUsername(username);
+        trainingRepository.deleteAllByUser(user);
         userRepository.delete(user);
     }
 
