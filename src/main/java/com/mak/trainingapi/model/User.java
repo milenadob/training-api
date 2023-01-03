@@ -7,9 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -33,21 +31,14 @@ public class User implements UserDetails{
     @NotNull
     private String password;
 
-    @NotNull
     private String sex;
-
-    @NotNull
     private Double weight;
-
-    @NotNull
     private Double height;
-
-    @NotNull
     private LocalDate birthday;
 
     private boolean enabled = true;
     @ManyToMany
-    private List<Role> roles = new ArrayList<>();
+    private Set<Role> roles = new HashSet<>();
 
     @Override
     public Collection<Role> getAuthorities() {

@@ -5,7 +5,9 @@ import com.mak.trainingapi.dto.UserUpdateDto;
 import com.mak.trainingapi.dto.UserViewDto;
 import com.mak.trainingapi.mapper.UserMapper;
 import com.mak.trainingapi.mapper.UserViewMapper;
+import com.mak.trainingapi.model.Role;
 import com.mak.trainingapi.model.User;
+import com.mak.trainingapi.repository.RoleRepository;
 import com.mak.trainingapi.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,14 +18,18 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.ValidationException;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -33,9 +39,13 @@ public class UserService implements UserDetailsService {
             throw new ValidationException("User with this login already exists");
         }
         User user = UserMapper.INSTANCE.userRegisterDtoToUser(userRegisterDto);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
 
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        Role userRole = roleRepository.findByName("ROLE_USER").orElse(null);
+        Set<Role> roleSet = new HashSet<>();
+        roleSet.add(userRole);
+        user.setRoles(roleSet);
+        userRepository.save(user);
         return UserViewMapper.INSTANCE.userToUserView(user);
     }
 

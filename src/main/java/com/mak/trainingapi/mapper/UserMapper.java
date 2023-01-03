@@ -3,11 +3,8 @@ package com.mak.trainingapi.mapper;
 import com.mak.trainingapi.dto.UserRegisterDto;
 import com.mak.trainingapi.dto.UserUpdateDto;
 import com.mak.trainingapi.model.User;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
-import org.mapstruct.MappingTarget;
-
 import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
 import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 
@@ -19,4 +16,5 @@ public interface UserMapper {
 
     @BeanMapping(nullValueCheckStrategy = ALWAYS, nullValuePropertyMappingStrategy = IGNORE)
     void userUpdateDtoToUser(UserUpdateDto request, @MappingTarget User user);
+
 }
