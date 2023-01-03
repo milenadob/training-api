@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 public record TrainingViewDto (
+        @NotNull Long id,
         @NotNull Timestamp startDateTime,
         @NotNull Timestamp endDateTime,
         @NotNull Long duration,

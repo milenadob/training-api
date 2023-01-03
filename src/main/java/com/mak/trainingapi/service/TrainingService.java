@@ -39,9 +39,7 @@ public class TrainingService {
     public TrainingViewDto createTraining(TrainingCreateDto trainingCreateDto){
         User user = userRepository.getUserByUsername(trainingCreateDto.getUsername());
         Training training = TrainingMapper.INSTANCE.trainingCreateDtoToTraining(trainingCreateDto);
-        System.out.println(training);
         training.setUser(user);
-        System.out.println(training);
         trainingRepository.save(training);
         return TrainingViewMapper.INSTANCE.trainingToTrainingViewDto(training);
     }
