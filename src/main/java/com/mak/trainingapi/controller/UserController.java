@@ -5,12 +5,11 @@ import com.mak.trainingapi.dto.UserUpdateDto;
 import com.mak.trainingapi.dto.UserViewDto;
 import com.mak.trainingapi.service.UserService;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("api/user")
-
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
     private final UserService userService;
 

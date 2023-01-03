@@ -9,8 +9,8 @@ public record TrainingCreateDto(
         @NotNull Timestamp endDateTime,
         @NotNull Long duration,
         @NotNull Double distance,
-        @NotBlank String additionalInfo,
-        @NotBlank String username
+        @NotNull String additionalInfo,
+        @NotNull String username
 ) {
 
     public String getUsername(){
