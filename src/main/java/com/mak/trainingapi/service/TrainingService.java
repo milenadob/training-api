@@ -44,7 +44,6 @@ public class TrainingService {
         return TrainingViewMapper.INSTANCE.trainingToTrainingViewDto(training);
     }
 
-    //TODO custom exception
     public TrainingViewDto updateTraining(Integer id, TrainingUpdateDto trainingUpdateDto){
         Training training = trainingRepository.findById(id).orElseThrow();
         TrainingMapper.INSTANCE.trainingUpdateDtoToTraining(trainingUpdateDto, training);

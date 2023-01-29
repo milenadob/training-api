@@ -84,7 +84,6 @@ public class SecurityConfig {
 
         return authProvider;
     }
-    // TODO zmienić allowedOrigin
     @Bean
     public CorsFilter corsFilter() {
         var source = new UrlBasedCorsConfigurationSource();

@@ -57,8 +57,7 @@ public class UserService implements UserDetailsService {
     public UserViewDto getUserByUsername(String username) {
         return UserViewMapper.INSTANCE.userToUserView(userRepository.getUserByUsername(username));
     }
-
-    // TODO update by username or id?
+    
     public UserViewDto updateUser(String username, UserUpdateDto userUpdateDto){
         User user  = userRepository.getUserByUsername(username);
         UserMapper.INSTANCE.userUpdateDtoToUser(userUpdateDto, user);
